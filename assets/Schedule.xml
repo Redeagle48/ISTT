@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<timetable>
+    <trip season="normal">
+        <hour_init>10:50</hour_init>
+    	<hour_end>11:30</hour_end>
+    	<depart>Tagus</depart>
+    	<arrive>Alameda</arrive>
+    </trip>
+    <trip season="normal">
+        <hour_init>09:10</hour_init>
+    	<hour_end>10:00</hour_end>
+    	<depart>Alameda</depart>
+    	<arrive>Tagus</arrive>
+    </trip>
+    <trip season="normal">
+        <hour_init>17:10</hour_init>
+    	<hour_end>17:45</hour_end>
+    	<depart>Tagus</depart>
+    	<arrive>Alameda</arrive>
+    </trip>
+</timetable>

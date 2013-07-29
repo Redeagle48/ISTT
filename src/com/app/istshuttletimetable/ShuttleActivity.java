@@ -1,10 +1,7 @@
 package com.app.istshuttletimetable;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +12,11 @@ public class ShuttleActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        com.app.Controller.ProcessTime p = new com.app.Controller.ProcessTime();
-        p.executeTime();
+        //Read XML from asset folder
+        Context ctx = getApplicationContext();
+        com.app.Controller.ProcessXML p = new com.app.Controller.ProcessXML();
+        p.executeTrips(ctx);
+        
         
         setContentView(R.layout.activity_shuttle);
     }
