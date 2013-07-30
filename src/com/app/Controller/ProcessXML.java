@@ -25,19 +25,17 @@ public class ProcessXML {
 
 	public ProcessXML() {
 	};
+	
+	public void executeXMLSources(Context ctx) {
+		executeTrips(ctx);
+		executeSeasons(ctx);
+	}
 
 	public void executeTrips(Context ctx){
 
-		// Get the actual date
-		Date cDate = new Date();
-		String fDate = new SimpleDateFormat("MM-dd").format(cDate);
-		String[] dateArray = fDate.split("-");
-
-		Context context = ctx;
 		try {
-
 			//Get xml file from project asset folder
-			AssetManager assetManager = context.getAssets();
+			AssetManager assetManager = ctx.getAssets();
 			InputStream is = assetManager.open(com.app.domain.Values.XML_TRIPS);
 
 
@@ -47,7 +45,7 @@ public class ProcessXML {
 			doc.getDocumentElement().normalize();
 			NodeList nodeLst = doc.getElementsByTagName("trip");
 
-			if(com.app.domain.Values.debug){
+			if(com.app.domain.Values.debugXML){
 				System.out.println("Root element " + doc.getDocumentElement().getNodeName());
 				System.out.println("Information of times");
 				System.out.println("Tamanho do nó: " + nodeLst.getLength());
@@ -59,7 +57,7 @@ public class ProcessXML {
 
 				if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
 
-					if(com.app.domain.Values.debug){
+					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips","Season: " + fstNode.getAttributes().item(0).getTextContent());
 					}
 
@@ -67,38 +65,106 @@ public class ProcessXML {
 					NodeList fstNmElmntLst = fstElmnt.getElementsByTagName("hour_init");
 					Element fstNmElmnt = (Element) fstNmElmntLst.item(0);
 					NodeList fstNm = fstNmElmnt.getChildNodes();
-					
-					if(com.app.domain.Values.debug){
+
+					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips","Hour Init : "  + ((Node) fstNm.item(0)).getNodeValue());
 					}
 
 					NodeList scdNmElmntLst = fstElmnt.getElementsByTagName("hour_end");
 					Element scdNmElmnt = (Element) scdNmElmntLst.item(0);
 					NodeList scdNm = scdNmElmnt.getChildNodes();
-					
-					if(com.app.domain.Values.debug){
+
+					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips","Hour End : " + ((Node) scdNm.item(0)).getNodeValue());
 					}
 
 					NodeList thrNmElmntLst = fstElmnt.getElementsByTagName("depart");
 					Element thrNmElmnt = (Element) thrNmElmntLst.item(0);
 					NodeList thrNm = thrNmElmnt.getChildNodes();
-					
-					if(com.app.domain.Values.debug){
+
+					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips","Depart : " + ((Node) thrNm.item(0)).getNodeValue());
 					}
 
 					NodeList fourNmElmntLst = fstElmnt.getElementsByTagName("arrive");
 					Element fourNmElmnt = (Element) fourNmElmntLst.item(0);
 					NodeList fourNm = fourNmElmnt.getChildNodes();
-					
-					if(com.app.domain.Values.debug){
+
+					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips", "Arrive : " + ((Node) fourNm.item(0)).getNodeValue());
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void executeSeasons(Context ctx) {
+
+		try {
+			//Get xml file from project asset folder
+			AssetManager assetManager = ctx.getAssets();
+			InputStream is = assetManager.open(com.app.domain.Values.XML_SEASONS);
+
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(is);
+			doc.getDocumentElement().normalize();
+			
+			if(com.app.domain.Values.debugXML){
+				Log.i("XML_seasons","Root element " + doc.getDocumentElement().getNodeName());
+			}
+			
+			if(com.app.domain.Values.debugXML){
+				Log.i("XML_seasons","Reading Normal slots");
+			}
+			readNodeSeasons(doc, "normal");
+			
+			if(com.app.domain.Values.debugXML){
+				Log.i("XML_seasons","Reading Exams slots");
+			}
+			readNodeSeasons(doc, "exams");
+			
+		//Maybe try to catch all the specific exceptions  :)
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Method to read seasons slots
+	void readNodeSeasons(Document doc, String masterNode) {
+		NodeList NodeLst = doc.getElementsByTagName(masterNode);
+		
+		for (int i = 0; i < NodeLst.getLength(); i++) {
+			Node node = NodeLst.item(i);
+			NodeList slotList = node.getChildNodes();
+
+			for (int s = 0; s < slotList.getLength(); s++) {
+
+				Node fstNode = slotList.item(s);
+
+				if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
+
+					Element fstElmnt = (Element) fstNode;
+					NodeList fstNmElmntLst = fstElmnt.getElementsByTagName("date_init");
+					Element fstNmElmnt = (Element) fstNmElmntLst.item(0);
+					NodeList fstNm = fstNmElmnt.getChildNodes();
+
+					if(com.app.domain.Values.debugXML){
+						Log.i("XML_seasons","Date Init : "  + ((Node) fstNm.item(0)).getNodeValue());
+					}
+
+					NodeList scdNmElmntLst = fstElmnt.getElementsByTagName("date_end");
+					Element scdNmElmnt = (Element) scdNmElmntLst.item(0);
+					NodeList scdNm = scdNmElmnt.getChildNodes();
+
+					if(com.app.domain.Values.debugXML){
+						Log.i("XML_seasons","Date End : " + ((Node) scdNm.item(0)).getNodeValue());
+					}
+				}
+			}
 		}
 	}
 }
