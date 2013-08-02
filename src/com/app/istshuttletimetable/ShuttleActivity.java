@@ -15,7 +15,7 @@ public class ShuttleActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//Read XML from asset folder
+		//Read XML from assets folder
 		Context ctx = getApplicationContext();
 		com.app.Controller.ProcessXML p = new com.app.Controller.ProcessXML();
 		p.executeXMLSources(ctx);
