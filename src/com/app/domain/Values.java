@@ -8,5 +8,5 @@ public class Values {
 	public static String XML_TRIPS = "Schedule.xml";
 	public static String XML_SEASONS = "Seasons.xml";
 	
-	public static HashMap<String, String> seasons;
+	public static HashMap<String, String> seasons = new HashMap<String, String>();
 }

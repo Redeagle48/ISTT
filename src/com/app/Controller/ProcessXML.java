@@ -2,6 +2,7 @@ package com.app.Controller;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,9 +24,22 @@ public class ProcessXML {
 	final String DEPART = "depart";
 	final String ARRIVE = "arrive";
 
+	ArrayList<String[]> normal;
+	ArrayList<String[]> exams;
+
 	public ProcessXML() {
+		normal = new ArrayList<String[]>();
+		exams = new ArrayList<String[]>();
 	};
 	
+	public ArrayList<String[]> getNormal() {
+		return normal;
+	}
+	
+	public ArrayList<String[]> getExams() {
+		return exams;
+	}
+
 	public void executeXMLSources(Context ctx) {
 		executeTrips(ctx);
 		executeSeasons(ctx);
@@ -112,31 +126,31 @@ public class ProcessXML {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(is);
 			doc.getDocumentElement().normalize();
-			
+
 			if(com.app.domain.Values.debugXML){
 				Log.i("XML_seasons","Root element " + doc.getDocumentElement().getNodeName());
 			}
-			
+
 			if(com.app.domain.Values.debugXML){
 				Log.i("XML_seasons","Reading Normal slots");
 			}
 			readNodeSeasons(doc, "normal");
-			
+
 			if(com.app.domain.Values.debugXML){
 				Log.i("XML_seasons","Reading Exams slots");
 			}
 			readNodeSeasons(doc, "exams");
-			
-		//Maybe try to catch all the specific exceptions  :)
+
+			//Maybe try to catch all the specific exceptions  :)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//Method to read seasons slots
 	void readNodeSeasons(Document doc, String masterNode) {
 		NodeList NodeLst = doc.getElementsByTagName(masterNode);
-		
+
 		for (int i = 0; i < NodeLst.getLength(); i++) {
 			Node node = NodeLst.item(i);
 			NodeList slotList = node.getChildNodes();
@@ -155,6 +169,7 @@ public class ProcessXML {
 					if(com.app.domain.Values.debugXML){
 						Log.i("XML_seasons","Date Init : "  + ((Node) fstNm.item(0)).getNodeValue());
 					}
+					String date_init = ((Node)fstNm.item(0)).getNodeValue();
 
 					NodeList scdNmElmntLst = fstElmnt.getElementsByTagName("date_end");
 					Element scdNmElmnt = (Element) scdNmElmntLst.item(0);
@@ -162,6 +177,13 @@ public class ProcessXML {
 
 					if(com.app.domain.Values.debugXML){
 						Log.i("XML_seasons","Date End : " + ((Node) scdNm.item(0)).getNodeValue());
+					}
+					String date_end = ((Node) scdNm.item(0)).getNodeValue();
+
+					if(masterNode.equals("normal")) {
+						normal.add(new String[]{date_init,date_end});
+					} else if (masterNode.equals("exams")) {
+						exams.add(new String[]{date_init,date_end});
 					}
 				}
 			}

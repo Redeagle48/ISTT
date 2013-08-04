@@ -19,6 +19,11 @@ public class ShuttleActivity extends Activity {
 		Context ctx = getApplicationContext();
 		com.app.Controller.ProcessXML p = new com.app.Controller.ProcessXML();
 		p.executeXMLSources(ctx);
+		
+		//Build Knowledge Base
+		com.app.Controller.ProcessDomain d = new com.app.Controller.ProcessDomain();
+		d.executeDomain(p.getNormal(), "normal");
+		d.executeDomain(p.getExams(), "exams");
 
 		// Get the actual date
 		Date cDate = new Date();
