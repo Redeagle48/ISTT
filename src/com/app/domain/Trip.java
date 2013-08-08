@@ -8,7 +8,7 @@ public class Trip {
 		ArrayList<String> stops; //stops between the start and end point
 		
 		Trip() {
-			slot = new Slot();
+			//slot = new Slot();
 			stops = new ArrayList<String>();
 		}
 		

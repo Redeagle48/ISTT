@@ -1,17 +1,27 @@
 package com.app.domain;
 
-import java.text.SimpleDateFormat;
 
 public class Slot {
 
-	SimpleDateFormat begin;
-	SimpleDateFormat end;
+	String season;
+	String begin;
+	String end;
 	
-	public SimpleDateFormat getSlotBeginDate() {
+	public Slot(String season,String begin,String end){
+		this.season = season;
+		this.begin = begin;
+		this.end = end;
+	}
+	
+	public String getSeason(){
+		return season;
+	}
+	
+	public String getSlotBeginDate() {
 		return begin;
 	}
 	
-	public SimpleDateFormat getSlotEndDate() {
+	public String getSlotEndDate() {
 		return end;
 	}
 

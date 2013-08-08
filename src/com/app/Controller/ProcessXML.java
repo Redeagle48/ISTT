@@ -31,11 +31,11 @@ public class ProcessXML {
 		normal = new ArrayList<String[]>();
 		exams = new ArrayList<String[]>();
 	};
-	
+
 	public ArrayList<String[]> getNormal() {
 		return normal;
 	}
-	
+
 	public ArrayList<String[]> getExams() {
 		return exams;
 	}
@@ -180,10 +180,33 @@ public class ProcessXML {
 					}
 					String date_end = ((Node) scdNm.item(0)).getNodeValue();
 
+					if(com.app.domain.Values.debugXML){
+						Log.i("Check","==========BEGIN=============");
+
+						Log.i("Check","Extracted date_end: " + date_end);
+
+					}
+
 					if(masterNode.equals("normal")) {
 						normal.add(new String[]{date_init,date_end});
 					} else if (masterNode.equals("exams")) {
 						exams.add(new String[]{date_init,date_end});
+					}
+
+					if(com.app.domain.Values.debugXML){
+						Log.i("Check","NORMAL:");
+						for (String[] slot : normal) {
+							Log.i("Check","date_begin: "+slot[0]);
+							Log.i("Check","date_end: "+slot[1]);
+						}
+
+						Log.i("Check","EXAMS:");
+						for (String[] slot : exams) {
+							Log.i("Check","date_begin: "+slot[0]);
+							Log.i("Check","date_end: "+slot[1]);
+						}
+
+						Log.i("Check","==========END=============");
 					}
 				}
 			}

@@ -17,13 +17,13 @@ public class ShuttleActivity extends Activity {
 
 		//Read XML from assets folder
 		Context ctx = getApplicationContext();
-		com.app.Controller.ProcessXML p = new com.app.Controller.ProcessXML();
-		p.executeXMLSources(ctx);
+		com.app.Controller.ProcessXML processXML = new com.app.Controller.ProcessXML();
+		processXML.executeXMLSources(ctx);
 		
 		//Build Knowledge Base
-		com.app.Controller.ProcessDomain d = new com.app.Controller.ProcessDomain();
-		d.executeDomain(p.getNormal(), "normal");
-		d.executeDomain(p.getExams(), "exams");
+		com.app.Controller.ProcessDomain processDomain = new com.app.Controller.ProcessDomain();
+		processDomain.executeDomain(processXML.getNormal(), "normal");
+		processDomain.executeDomain(processXML.getExams(), "exams");
 
 		// Get the actual date
 		Date cDate = new Date();
