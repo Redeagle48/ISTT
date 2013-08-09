@@ -24,6 +24,8 @@ public class ShuttleActivity extends Activity {
 		com.app.Controller.ProcessDomain processDomain = new com.app.Controller.ProcessDomain();
 		processDomain.executeDomain(processXML.getNormal(), "normal");
 		processDomain.executeDomain(processXML.getExams(), "exams");
+		//TODO
+		processDomain.organize();
 
 		// Get the actual date
 		Date cDate = new Date();

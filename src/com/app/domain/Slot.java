@@ -24,5 +24,4 @@ public class Slot {
 	public String getSlotEndDate() {
 		return end;
 	}
-
 }

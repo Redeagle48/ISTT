@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 import android.util.Log;
 
@@ -22,7 +23,7 @@ public class ProcessDomain {
 
 		if(com.app.domain.Values.debugDomain){
 
-			Log.i("ExecuteDomain","===========BEGIN=============");
+			Log.i("ExecuteDomain","===========ARGS EXECUTEDOMAIN=============");
 			Log.i("ExecuteDomain","Para: " + season);
 			for (String[] e : d) {
 				Log.i("ExecuteDomain","==>Slot");
@@ -32,7 +33,7 @@ public class ProcessDomain {
 			Log.i("ExecuteDomain","===========END===============");
 		}
 
-		HashMap<Integer,Slot> seasons = com.app.domain.Values.seasons;
+		HashMap<Integer,ArrayList<Slot>> seasons = com.app.domain.Values.seasons;
 		for(int iterator = 0; iterator < d.size(); iterator++ ) {
 			String date_initString = d.get(iterator)[0];
 			String date_endString = d.get(iterator)[1];
@@ -40,29 +41,46 @@ public class ProcessDomain {
 			Date startDate;
 			int month = 0;
 			try {
-				startDate = df.parse(date_endString);
+				startDate = df.parse(date_initString);
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 
 				month = cal.get(Calendar.MONTH);
-				month++;
+				++month;
 
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
+			
+			ArrayList<Slot> slot_array;
+			if(!seasons.containsKey(month)) {
+				slot_array = new ArrayList<Slot>();
+			} else {
+				slot_array = seasons.get(month);
+			}
+			
 			Slot slot = new Slot(season,date_initString,date_endString);
-			//TODO
-			seasons.put(month, slot);
+			slot_array.add(slot);
+			seasons.put(month, slot_array);
 		}
-
+		
 		if(com.app.domain.Values.debugDomain){
-			for ( Integer slot: seasons.keySet()) {
-				Slot slotSlot = seasons.get(slot);
-				Log.i("ExecuteDomain","Key " + slot);
-				Log.i("ExecuteDomain","KeySet " + slotSlot);
+			Log.i("ExecuteDomain","===========HASHMAP============");
+			Log.i("ExecuteDomain", "Tamanho: " + seasons.size());
+			Set<Integer> set = seasons.keySet();
+			for (Integer i : set) {
+				ArrayList<Slot> seasons_slot = seasons.get(i);
+				Log.i("ExecuteDomain","Para mês: " + i);
+				for (Slot slot : seasons_slot) {
+					Log.i("ExecuteDomain",slot.getSeason() + " " + slot.getSlotBeginDate());
+				}
 			}
 		}
+	}
+
+	//TODO
+	public void organize() {
+		
 	}
 }

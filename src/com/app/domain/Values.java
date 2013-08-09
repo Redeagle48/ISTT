@@ -11,5 +11,5 @@ public class Values {
 	public static String XML_TRIPS = "Schedule.xml";
 	public static String XML_SEASONS = "Seasons.xml";
 	
-	public static HashMap<Integer, Slot> seasons = new HashMap<Integer, Slot>();
+	public static HashMap<Integer, ArrayList<Slot>> seasons = new HashMap<Integer, ArrayList<Slot>>();
 }

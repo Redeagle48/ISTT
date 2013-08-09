@@ -13,11 +13,19 @@
 	        <date_init>30/03/2014</date_init>
 	        <date_end>16/06/2014</date_end>
     	</slot>
+    	<slot>
+    	    <date_init>17/06/2014</date_init>
+    	    <date_end>19/06/2014</date_end>
+    	</slot>
     </normal>
     <exams>
         <slot>
 	        <date_init>22/12/2013</date_init>
 	        <date_end>4/01/2014</date_end>
+    	</slot>
+    	<slot>
+    	    <date_init>20/06/2014</date_init>
+    	    <date_end>21/06/2014</date_end>
     	</slot>
     </exams>
 </season>
