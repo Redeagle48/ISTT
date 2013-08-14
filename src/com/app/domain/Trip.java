@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 public class Trip {
 	
-		Slot slot; //Begin and end hour
 		ArrayList<String> stops; //stops between the start and end point
 		
 		Trip() {
-			//slot = new Slot();
 			stops = new ArrayList<String>();
 		}
 		

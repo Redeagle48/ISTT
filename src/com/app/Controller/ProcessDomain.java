@@ -87,7 +87,6 @@ public class ProcessDomain {
 		}
 	}
 
-	//TODO
 	public ArrayList<Slot> AddSlot(ArrayList<Slot> slot_array, Slot slot) throws ParseException {
 
 		Log.i("Organize","=========COMECA=============");
