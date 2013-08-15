@@ -1,15 +1,21 @@
 package com.app.istshuttletimetable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 
+import com.app.domain.Trip;
+
 public class ShuttleActivity extends Activity {
+	
+	private TripItemAdapter aa;
+	private ArrayList<Trip> todoItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +31,7 @@ public class ShuttleActivity extends Activity {
 		processDomain.executeDomain(processXML.getNormal(), "normal");
 		processDomain.executeDomain(processXML.getExams(), "exams");
 		
-		//TODO Processar viagens
-
+		
 		// Get the actual date
 		Date cDate = new Date();
 		String fDate = new SimpleDateFormat("MM-dd").format(cDate);
@@ -34,6 +39,20 @@ public class ShuttleActivity extends Activity {
 
 
 		setContentView(R.layout.activity_shuttle);
+	
+		FragmentManager fm = getFragmentManager();
+		TripListFragment tripListFragment = (TripListFragment)fm.findFragmentById(R.id.TripListFragment);
+
+		//Create the array list of to do items
+		todoItems = com.app.domain.Values.trip_normal;
+
+		//Create the array adapter to bind the array to the listview
+		int resID = R.layout.triplist_item;
+		aa = new TripItemAdapter(this,resID,
+				todoItems);
+
+		//Bind the array adapter to the list view
+		tripListFragment.setListAdapter(aa);
 	}
 
 
