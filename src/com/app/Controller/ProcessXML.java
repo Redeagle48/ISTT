@@ -1,9 +1,7 @@
 package com.app.Controller;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.app.domain.Trip;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -75,6 +75,8 @@ public class ProcessXML {
 						Log.i("XML_trips","Season: " + fstNode.getAttributes().item(0).getTextContent());
 					}
 
+					String season = fstNode.getAttributes().item(0).getTextContent();
+
 					Element fstElmnt = (Element) fstNode;
 					NodeList fstNmElmntLst = fstElmnt.getElementsByTagName("hour_init");
 					Element fstNmElmnt = (Element) fstNmElmntLst.item(0);
@@ -84,6 +86,8 @@ public class ProcessXML {
 						Log.i("XML_trips","Hour Init : "  + ((Node) fstNm.item(0)).getNodeValue());
 					}
 
+					String hour_init = ((Node) fstNm.item(0)).getNodeValue();
+
 					NodeList scdNmElmntLst = fstElmnt.getElementsByTagName("hour_end");
 					Element scdNmElmnt = (Element) scdNmElmntLst.item(0);
 					NodeList scdNm = scdNmElmnt.getChildNodes();
@@ -91,6 +95,8 @@ public class ProcessXML {
 					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips","Hour End : " + ((Node) scdNm.item(0)).getNodeValue());
 					}
+
+					String hour_end = ((Node) scdNm.item(0)).getNodeValue();
 
 					NodeList thrNmElmntLst = fstElmnt.getElementsByTagName("depart");
 					Element thrNmElmnt = (Element) thrNmElmntLst.item(0);
@@ -100,6 +106,8 @@ public class ProcessXML {
 						Log.i("XML_trips","Depart : " + ((Node) thrNm.item(0)).getNodeValue());
 					}
 
+					String depart = ((Node) thrNm.item(0)).getNodeValue();
+
 					NodeList fourNmElmntLst = fstElmnt.getElementsByTagName("arrive");
 					Element fourNmElmnt = (Element) fourNmElmntLst.item(0);
 					NodeList fourNm = fourNmElmnt.getChildNodes();
@@ -107,7 +115,32 @@ public class ProcessXML {
 					if(com.app.domain.Values.debugXML){
 						Log.i("XML_trips", "Arrive : " + ((Node) fourNm.item(0)).getNodeValue());
 					}
+
+					String arrive = ((Node) fourNm.item(0)).getNodeValue();
+
+					Trip trip = new Trip(depart,arrive,hour_init,hour_end);
+					if(season.equals("normal")) {
+						com.app.domain.Values.trip_normal.add(trip);
+					} else if (season.equals("exams")) {
+						com.app.domain.Values.trip_exams.add(trip);
+					}
 				}
+			}
+
+			Log.i("Trips","======NORMAL=======");
+			for (Trip trip : com.app.domain.Values.trip_normal) {
+				Log.i("Trips","Viagem a partir de: " + trip.getStartPoint());
+				Log.i("Trips","Viagem com destino a: " + trip.getEndPoint());
+				Log.i("Trips","Hora de partida: " + trip.getHourInit());
+				Log.i("Trips","Hora dechegada: " + trip.getHourEnd());
+			}
+
+			Log.i("Trips","======EXAMS=======");
+			for (Trip trip : com.app.domain.Values.trip_exams) {
+				Log.i("Trips","Viagem a partir de: " + trip.getStartPoint());
+				Log.i("Trips","Viagem com destino a: " + trip.getEndPoint());
+				Log.i("Trips","Hora de partida: " + trip.getHourInit());
+				Log.i("Trips","Hora dechegada: " + trip.getHourEnd());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

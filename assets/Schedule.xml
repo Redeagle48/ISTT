@@ -18,4 +18,10 @@
     	<depart>Tagus</depart>
     	<arrive>Alameda</arrive>
     </trip>
+    <trip season="exams">
+        <hour_init>19:10</hour_init>
+    	<hour_end>19:45</hour_end>
+    	<depart>Tagus</depart>
+    	<arrive>Alameda</arrive>
+    </trip>
 </timetable>
